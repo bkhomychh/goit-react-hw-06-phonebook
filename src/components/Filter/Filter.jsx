@@ -1,10 +1,15 @@
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux/es/exports';
+import { setFilter } from 'redux/filterSlice';
+import { getFilter } from 'redux/selectors';
 
 import { Label, SearchField } from './Filter.styled';
 
-export const Filter = ({ searchQuery, updateFilter }) => {
+export const Filter = () => {
+  const filter = useSelector(getFilter);
+  const dispatch = useDispatch();
+
   const handleChange = ({ target }) => {
-    updateFilter(target.value);
+    dispatch(setFilter(target.value));
   };
 
   return (
@@ -14,14 +19,9 @@ export const Filter = ({ searchQuery, updateFilter }) => {
         type="text"
         name="filter"
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-        value={searchQuery}
+        value={filter}
         onChange={handleChange}
       />
     </Label>
   );
-};
-
-Filter.propTypes = {
-  searchQuery: PropTypes.string.isRequired,
-  updateFilter: PropTypes.func.isRequired,
 };
